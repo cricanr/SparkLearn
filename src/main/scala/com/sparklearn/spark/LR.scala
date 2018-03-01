@@ -16,11 +16,13 @@ object LR {
     Logger.getLogger("org").setLevel(Level.ERROR)
 
     val spark = SparkSession.builder().appName("Spark Learn").getOrCreate()
-    import spark.implicits._
 
-    val data = spark.read.option("header", "true").option("inferSchema", value = true).format("csv").load("/Users/radu.crican/sources/git/SparkLearn/src/main/resources/USA_Housing.csv")
+    val path = getClass.getResource("/USA_Housing.csv").getPath
+    val data = spark.read.option("header", "true").option("inferSchema", value = true).format("csv").load(path)
 
     printData(data)
+
+    import spark.implicits._
 
     // ("label", "features")
     val df = data.select(data("Price").as("label"),
