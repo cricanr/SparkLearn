@@ -23,6 +23,11 @@ object LogRegExample {
     println("Run Logistic regression on Titanic data and print out statistics:")
     logRegTitanic(spark)
 
+    println("-----------------------------------------------------------")
+
+    println("Run advertising logistic regression and print out statistics:")
+    logRegAdvertising(spark)
+
     spark.close()
   }
 
@@ -36,7 +41,6 @@ object LogRegExample {
     printData(data)
 
     import spark.implicits._
-
 
     val logRegDataAll = data.select(data("Survived").as("label"),
       $"Pclass",
@@ -73,11 +77,54 @@ object LogRegExample {
 
     val results = model.transform(test)
 
-    // MODEL EVALUATION
-
     val predictionAndLabels = results.select($"prediction", $"label").as[(Double, Double)].rdd
 
     println(s"predictionAndLabels: $predictionAndLabels")
+
+    val metrics = new MulticlassMetrics(predictionAndLabels)
+
+    println("Confusion matrix: ")
+    println(metrics.confusionMatrix)
+  }
+
+  private def logRegAdvertising(spark: SparkSession) = {
+    val path = getClass.getResource("/advertising.csv").getPath
+
+    val data = spark.read.option("header", "true").option("inferSchema", value = true).format("csv").load(path)
+
+    data.printSchema()
+
+    printData(data)
+
+    import spark.implicits._
+
+    val logRegDataAll = data.select(data("Clicked on Ad").as("label"),
+      $"Daily Time Spent on Site",
+      $"Age",
+      $"Area Income",
+      $"Daily Internet Usage",
+      $"Male",
+      $"Timestamp")
+
+    val assembler = new VectorAssembler()
+      .setInputCols(Array(
+        "Daily Time Spent on Site",
+        "Age",
+        "Area Income",
+        "Daily Internet Usage"))
+      .setOutputCol("features")
+
+    val Array(training, test) = logRegDataAll.randomSplit(Array(0.7, 0.3), 12345)
+
+    val lr = new LogisticRegression()
+
+    val pipeline = new Pipeline().setStages(Array(assembler, lr))
+
+    val model = pipeline.fit(training)
+
+    val results = model.transform(test)
+
+    val predictionAndLabels = results.select($"prediction", $"label").as[(Double, Double)].rdd
 
     val metrics = new MulticlassMetrics(predictionAndLabels)
 
