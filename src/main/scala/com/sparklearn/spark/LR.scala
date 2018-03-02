@@ -5,6 +5,7 @@ import org.apache.spark.SparkContext
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.regression.LinearRegression
 import org.apache.spark.sql.{DataFrame, SparkSession}
+import Utils._
 
 object LR {
   def main(args: Array[String]): Unit = {
@@ -129,17 +130,5 @@ object LR {
     trainingSummary.predictions.show()
     println(s"r2: ${trainingSummary.r2}")
     println(s"r2: ${trainingSummary.rootMeanSquaredError}")
-  }
-
-  private def printData(data: DataFrame): Unit = {
-    val colNames = data.columns
-    val firstRow = data.head(1)(0)
-    println("\n")
-    println("Example data row: ")
-    for (ind <- Range(1, colNames.length)) {
-      println(colNames(ind))
-      println(firstRow(ind))
-      println("\n")
-    }
   }
 }
