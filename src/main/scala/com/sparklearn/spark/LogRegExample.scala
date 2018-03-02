@@ -8,6 +8,7 @@ import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.ml.feature.{OneHotEncoderEstimator, StringIndexer, VectorAssembler}
 import org.apache.spark.mllib.evaluation.MulticlassMetrics
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.types.IntegerType
 
 object LogRegExample {
   def main(args: Array[String]): Unit = {
@@ -31,7 +32,7 @@ object LogRegExample {
     spark.close()
   }
 
-  private def logRegTitanic(spark: SparkSession) = {
+  private def logRegTitanic(spark: SparkSession): Unit = {
     val path = getClass.getResource("/titanic.csv").getPath
 
     val data = spark.read.option("header", "true").option("inferSchema", value = true).format("csv").load(path)
@@ -87,7 +88,7 @@ object LogRegExample {
     println(metrics.confusionMatrix)
   }
 
-  private def logRegAdvertising(spark: SparkSession) = {
+  private def logRegAdvertising(spark: SparkSession): Unit = {
     val path = getClass.getResource("/advertising.csv").getPath
 
     val data = spark.read.option("header", "true").option("inferSchema", value = true).format("csv").load(path)
@@ -98,20 +99,24 @@ object LogRegExample {
 
     import spark.implicits._
 
-    val logRegDataAll = data.select(data("Clicked on Ad").as("label"),
+    val timeData = data.withColumn("Hour", data("Timestamp").cast(IntegerType))
+      .drop("Timestamp")
+      .withColumnRenamed("Timestamp", "Hour")
+    val logRegDataAll = timeData.select(data("Clicked on Ad").as("label"),
       $"Daily Time Spent on Site",
       $"Age",
       $"Area Income",
       $"Daily Internet Usage",
-      $"Male",
-      $"Timestamp")
+      $"Hour",
+      $"Male")
 
     val assembler = new VectorAssembler()
       .setInputCols(Array(
         "Daily Time Spent on Site",
         "Age",
         "Area Income",
-        "Daily Internet Usage"))
+        "Daily Internet Usage",
+        "Hour"))
       .setOutputCol("features")
 
     val Array(training, test) = logRegDataAll.randomSplit(Array(0.7, 0.3), 12345)
