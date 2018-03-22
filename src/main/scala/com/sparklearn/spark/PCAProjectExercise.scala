@@ -202,7 +202,7 @@ object PCAProjectExercise {
     val scalerModel = scaler.fit(output)
 
     val normData = normalizer.transform(output)
-    println("Normalized data using L^1 norm")
+    println("Normalized data using L^1 norm: ")
     normData.show()
 
     val scaledData = scalerModel.transform(normData)
