@@ -7,7 +7,7 @@ object Utils {
     val colNames = data.columns
     val firstRow = data.head(1)(0)
     println("\n")
-    println("Example data row: ")
+    println("Data row: ")
     for (ind <- Range(1, colNames.length)) {
       println(colNames(ind))
       println(firstRow(ind))
