@@ -7,7 +7,7 @@ import org.apache.spark.ml.regression.LinearRegression
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import Utils._
 
-object LR {
+object LinearRegression {
   def main(args: Array[String]): Unit = {
     import org.apache.spark.SparkConf
 

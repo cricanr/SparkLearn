@@ -1,6 +1,5 @@
 package com.sparklearn.spark
 
-import com.sparklearn.spark.LogRegExample.getClass
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.ml.evaluation.RegressionEvaluator

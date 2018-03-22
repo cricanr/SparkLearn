@@ -1,9 +1,9 @@
-import com.sparklearn.spark.LogRegExample.getClass
+package com.sparklearn.spark
+
 import org.apache.spark.sql.SparkSession
 import org.apache.log4j._
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.ml.clustering.KMeans
-
 
 object KMeansExample {
   def main(args: Array[String]): Unit = {
@@ -17,9 +17,6 @@ object KMeansExample {
 
     val dataset = spark.read.option("header", "true").option("inferSchema", value = true).format("libsvm").load(path)
 
-//    val dataset = spark.read.option("header", "true").option("inferSchema", "true").csv("sample_kmeans_data.txt")
-
-    // Trains a k-means model.
     val kmeans = new KMeans().setK(2).setSeed(1L)
     val model = kmeans.fit(dataset)
 

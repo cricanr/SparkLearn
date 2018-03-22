@@ -1,9 +1,3 @@
-import com.sparklearn.spark.Utils.printData
-import org.apache.log4j.{Level, Logger}
-import org.apache.spark.SparkContext
-import org.apache.spark.ml.feature.{Normalizer, PCA, StandardScaler, VectorAssembler}
-import org.apache.spark.sql.SparkSession
-
 // PCA Project Exercise
 
 // Complete the tasks below to transform the dataset!
@@ -152,7 +146,15 @@ import org.apache.spark.sql.SparkSession
 // Use .head() to confirm that your output column Array of pcaFeatures
 // only has 4 principal components
 
-object PCA_Project_Exercise {
+package com.sparklearn.spark
+
+import com.sparklearn.spark.Utils.printData
+import org.apache.log4j.{Level, Logger}
+import org.apache.spark.SparkContext
+import org.apache.spark.ml.feature.{Normalizer, PCA, StandardScaler, VectorAssembler}
+import org.apache.spark.sql.SparkSession
+
+object PCAProjectExercise {
   def main(args: Array[String]): Unit = {
     import org.apache.spark.SparkConf
 
@@ -171,12 +173,12 @@ object PCA_Project_Exercise {
 
     printData(data)
 
-    val colnames = (Array("mean radius", "mean texture", "mean perimeter", "mean area", "mean smoothness",
+    val colnames = Array("mean radius", "mean texture", "mean perimeter", "mean area", "mean smoothness",
       "mean compactness", "mean concavity", "mean concave points", "mean symmetry", "mean fractal dimension",
       "radius error", "texture error", "perimeter error", "area error", "smoothness error", "compactness error",
       "concavity error", "concave points error", "symmetry error", "fractal dimension error", "worst radius",
       "worst texture", "worst perimeter", "worst area", "worst smoothness", "worst compactness", "worst concavity",
-      "worst concave points", "worst symmetry", "worst fractal dimension"))
+      "worst concave points", "worst symmetry", "worst fractal dimension")
 
     val assembler = new VectorAssembler()
       .setInputCols(colnames)

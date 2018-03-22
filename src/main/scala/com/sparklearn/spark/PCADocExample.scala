@@ -6,7 +6,7 @@ import org.apache.spark.ml.feature.PCA
 import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.sql.SparkSession
 
-object PCA_Doc_Example {
+object PCADocExample {
   def main(args: Array[String]): Unit = {
     import org.apache.spark.SparkConf
 

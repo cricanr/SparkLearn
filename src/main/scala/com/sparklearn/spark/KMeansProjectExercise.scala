@@ -1,8 +1,4 @@
-import org.apache.log4j.{Level, Logger}
-import org.apache.spark.ml.clustering.KMeans
-import org.apache.spark.ml.feature.VectorAssembler
-import org.apache.spark.sql.SparkSession
-import org.apache.spark.{SparkConf, SparkContext}
+
 /////////////////////////////////
 // K MEANS PROJECT EXERCISE ////
 ///////////////////////////////
@@ -57,9 +53,13 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 // Shows the result.
 
-import org.apache.spark.ml.feature.{VectorAssembler, StringIndexer, VectorIndexer, OneHotEncoder}
-import org.apache.spark.ml.linalg.Vectors
+package com.sparklearn.spark
 
+import org.apache.log4j.{Level, Logger}
+import org.apache.spark.ml.clustering.KMeans
+import org.apache.spark.ml.feature.VectorAssembler
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.{SparkConf, SparkContext}
 
 object KMeansProjectExercise {
   def main(args: Array[String]): Unit = {

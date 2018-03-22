@@ -1,6 +1,5 @@
 package com.sparklearn.spark
 
-import com.sparklearn.spark.LR.getClass
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.SparkContext
 import org.apache.spark.ml.evaluation.RegressionEvaluator
@@ -10,7 +9,7 @@ import org.apache.spark.ml.regression.LinearRegression
 import org.apache.spark.ml.tuning.{ParamGridBuilder, TrainValidationSplit}
 import org.apache.spark.sql.SparkSession
 
-object TrainGridsEx {
+object TrainGridsExercise {
   def main(args: Array[String]): Unit = {
 
     import org.apache.spark.SparkConf
@@ -22,7 +21,6 @@ object TrainGridsEx {
 
     val spark = SparkSession.builder().appName("Spark Learn").getOrCreate()
 
-    // READ data
     val path = getClass.getResource("/USA_Housing.csv").getPath
     val data = spark.read.option("header", "true").option("inferSchema", "true").format("csv").load(path)
 
